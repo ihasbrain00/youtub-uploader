@@ -147,8 +147,8 @@ def select_videos_to_upload():
     return videos_to_upload
 
 def main():
-    # Path to your OAuth 2.0 credentials file
-    CREDENTIALS_FILE = 'credentials.json'
+    # Path to your OAuth 2.0 credentials file (changed to 'credential.json')
+    CREDENTIALS_FILE = 'credential.json'
     
     # Initialize the uploader
     uploader = YouTubeUploader(CREDENTIALS_FILE)
