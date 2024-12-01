@@ -1,0 +1,43 @@
+name: YouTube Video Uploader
+
+on:
+  schedule:
+    # Run every day at 12:00 PM UTC (configurable)
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+    # Allow manual trigger
+
+jobs:
+  upload-videos:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Decrypt credentials
+      env:
+        CREDENTIALS_PASSPHRASE: ${{ secrets.CREDENTIALS_PASSPHRASE }}
+      run: |
+        # Decrypt the credentials file using OpenSSL
+        openssl enc -aes-256-cbc -salt -d -in credentials.json.enc -out credentials.json -k "$CREDENTIALS_PASSPHRASE"
+    
+    - name: Upload Videos
+      run: |
+        python src/uploader.py
+    
+    - name: Clean up credentials
+      if: always()
+      run: |
+        # Remove credentials file after use
+        rm -f credentials.json
