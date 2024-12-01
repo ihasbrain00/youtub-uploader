@@ -30,7 +30,7 @@ jobs:
         CREDENTIALS_PASSPHRASE: ${{ secrets.CREDENTIALS_PASSPHRASE }}
       run: |
         # Decrypt the credentials file using OpenSSL
-        openssl enc -aes-256-cbc -salt -d -in credentials.json.enc -out credentials.json -k "$CREDENTIALS_PASSPHRASE"
+        openssl enc -aes-256-cbc -salt -d -in credential.json.enc -out credential.json -k "$CREDENTIALS_PASSPHRASE"
     
     - name: Upload Videos
       run: |
